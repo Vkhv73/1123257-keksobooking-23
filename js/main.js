@@ -8,41 +8,23 @@ const getRandomInteger = function (minValue, maxValue) {
   if (minValue < maxValue && minValue >= 0) {
     return Math.round(minValue + Math.random() * (maxValue - minValue));
   }
+  throw new Error(
+    'Значение "от" меньше нуля или больше значения "до", или введены нечисловые значения');
 
-  console.log(
-    'Значение "от" меньше нуля или больше значения "до", или введены нечисловые значения'
-  );
 };
 
-console.log(getRandomInteger(0, 5));
-
-console.log(
-  getRandomInteger(
-    parseInt(prompt("Введите минимальное значение")),
-    parseInt(prompt("Введите максимальное значение"))
-  )
-);
+getRandomInteger(0, 5);
 
 //! Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 
 const getRandomFloat = function (minValue, maxValue, decimalPlaces) {
   if (minValue < maxValue && minValue >= 0) {
     return parseFloat(
-      (minValue + Math.random() * (maxValue - minValue)).toFixed(decimalPlaces)
-    );
+      (minValue + Math.random() * (maxValue - minValue)).toFixed(decimalPlaces));
   }
 
-  console.log(
-    'Значение "от" меньше нуля или больше значения "до", или введены нечисловые значения'
-  );
+  throw new Error(
+    'Значение "от" меньше нуля или больше значения "до", или введены нечисловые значения');
 };
 
-console.log(getRandomFloat(1.02, 10.1, 7));
-
-console.log(
-  getRandomFloat(
-    parseFloat(prompt("Введите минимальное значение")),
-    parseFloat(prompt("Введите максимальное значение")),
-    parseInt(prompt("Введите количество знаков после запятой"))
-  )
-);
+getRandomFloat(1.02, 10.1, 7);
