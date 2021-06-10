@@ -100,7 +100,7 @@ const createNearestPlace = () => {
       features: presenceOfFeatures.slice(
         getRandomInteger(0, presenceOfFeatures.length - 1)),
       description: 'Просто сказка!',
-      photos: arrayOfPhotos[getRandomInteger(1, arrayOfPhotos.length - 1)],
+      photos: arrayOfPhotos.slice(getRandomInteger(1, arrayOfPhotos.length - 1)),
     },
     // offer: createOffer(geoLocation), // а тут передаем, чтоб из него взять
     location: geoLocation, // тут мы просто подставляем объект
