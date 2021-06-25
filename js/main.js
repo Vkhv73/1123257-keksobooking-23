@@ -1,1 +1,2 @@
-import './get-data-generator.js';
+import './data.js';
+import './gen_template.js';
