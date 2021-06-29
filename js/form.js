@@ -76,10 +76,15 @@ const validateRoomsAndGuestsNumber = () => {
   }
 };
 
-noticeFormRoomNumber.addEventListener('change', () => {
-  validateRoomsAndGuestsNumber();
-});
+// noticeFormRoomNumber.addEventListener('change', () => {
+//   validateRoomsAndGuestsNumber();
+// });
 
-noticeFormCapacity.addEventListener('change', () => {
+// noticeFormCapacity.addEventListener('change', () => {
+//   validateRoomsAndGuestsNumber();
+// });
+
+//! сделал делегирование)))
+noticeForm.addEventListener('change', () => {
   validateRoomsAndGuestsNumber();
 });
