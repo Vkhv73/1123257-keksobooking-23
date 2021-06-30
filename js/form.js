@@ -6,6 +6,10 @@ const noticeFormTypeInput = noticeForm.querySelector('#type');
 const noticeFormRoomNumber = noticeForm.querySelector('#room_number');
 const noticeFormCapacity = noticeForm.querySelector('#capacity');
 
+const time = document.querySelector('.ad-form__element--time');
+const timeIn = time.querySelector('#timein');
+const timeOut = time.querySelector('#timeout');
+
 const MIN_TITLE_LENGTH = noticeFormTitleInput.minLength;
 const MAX_TITLE_LENGTH = noticeFormTitleInput.maxLength;
 
@@ -31,9 +35,6 @@ const capacityNumber = {
   'no guest': 0,
 };
 
-const time = document.querySelector('.ad-form__element--time');
-const timeIn = time.querySelector('#timein');
-const timeOut = time.querySelector('#timeout');
 
 // валидация поля "ЗАГОЛОВОК" текстовое, от 30 до 100 символов
 noticeFormTitleInput.addEventListener('input', () => {
