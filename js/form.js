@@ -6,6 +6,10 @@ const noticeFormTypeInput = noticeForm.querySelector('#type');
 const noticeFormRoomNumber = noticeForm.querySelector('#room_number');
 const noticeFormCapacity = noticeForm.querySelector('#capacity');
 
+const time = document.querySelector('.ad-form__element--time');
+const timeIn = time.querySelector('#timein');
+const timeOut = time.querySelector('#timeout');
+
 const MIN_TITLE_LENGTH = noticeFormTitleInput.minLength;
 const MAX_TITLE_LENGTH = noticeFormTitleInput.maxLength;
 
@@ -30,6 +34,7 @@ const capacityNumber = {
   'three guests': 3,
   'no guest': 0,
 };
+
 
 // валидация поля "ЗАГОЛОВОК" текстовое, от 30 до 100 символов
 noticeFormTitleInput.addEventListener('input', () => {
@@ -84,7 +89,12 @@ noticeFormCapacity.addEventListener('change', () => {
   validateRoomsAndGuestsNumber();
 });
 
-// //! сделал делегирование)))
-// noticeForm.addEventListener('change', () => {
-//   validateRoomsAndGuestsNumber();
-// });
+//!========== ниже валидация и синхронизация для времени заезда задание 8-2
+
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+});
