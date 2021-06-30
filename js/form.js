@@ -31,6 +31,10 @@ const capacityNumber = {
   'no guest': 0,
 };
 
+const time = document.querySelector('.ad-form__element--time');
+const timeIn = time.querySelector('#timein');
+const timeOut = time.querySelector('#timeout');
+
 // валидация поля "ЗАГОЛОВОК" текстовое, от 30 до 100 символов
 noticeFormTitleInput.addEventListener('input', () => {
   const valueLength = noticeFormTitleInput.value.length;
@@ -84,7 +88,12 @@ noticeFormCapacity.addEventListener('change', () => {
   validateRoomsAndGuestsNumber();
 });
 
-// //! сделал делегирование)))
-// noticeForm.addEventListener('change', () => {
-//   validateRoomsAndGuestsNumber();
-// });
+//!========== ниже валидация и синхронизация для времени заезда задание 8-2
+
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+});
