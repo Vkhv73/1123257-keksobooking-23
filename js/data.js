@@ -92,9 +92,9 @@ const createNearestPlaces = () => {
   return textus;
 };
 // eslint-disable-next-line no-console
-console.log(createNearestPlaces());
+// console.log(createNearestPlaces());
 
 export { createNearestPlaces };
 export { typeOfApartmentObj };
-createNearestPlaces;
+// createNearestPlaces;
 
