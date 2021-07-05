@@ -60,6 +60,7 @@ const createLocation = () => {
   return location;
 };
 
+// Рандомный объект
 const createNearestPlace = () => {
   const geoLocation = createLocation();
 
@@ -80,21 +81,16 @@ const createNearestPlace = () => {
       photos: arrayOfPhotos.slice(
         getRandomInteger(0, arrayOfPhotos.length - 1)),
     },
-    // offer: createOffer(geoLocation), // а тут передаем, чтоб из него взять
     location: geoLocation, // тут мы просто подставляем объект
   };
 };
 
-const createNearestPlaces = () => {
+// Функция по созданию массива из 10ти рандомных обхектов
+const createRandomNearestPlaces = () => {
   const textus = new Array(OBJECTS_COUNT) // создаем массив из 10 чисел
     .fill(null) // заполняем пустотой
     .map(() => createNearestPlace()); // заполняем каждый из 10 элементов созданием объекта
   return textus;
 };
-// eslint-disable-next-line no-console
-console.log(createNearestPlaces());
 
-export { createNearestPlaces };
-export { typeOfApartmentObj };
-createNearestPlaces;
-
+export { createRandomNearestPlaces, typeOfApartmentObj };

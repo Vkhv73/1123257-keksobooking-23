@@ -1,4 +1,6 @@
 //!========== ниже перевод в АКТИВНОЕ-НЕАКТИВНОЕ СОСТОЯНИЕ  задание 7-2
+// import './map-handler.js';
+// import { map } from './map-handler.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');

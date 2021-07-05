@@ -1,4 +1,4 @@
-import { createNearestPlaces } from './data.js';
+// import { createRandomNearestPlaces } from './data.js';
 import { typeOfApartmentObj } from './data.js';
 
 const cardNotification = document
@@ -7,9 +7,8 @@ const cardNotification = document
   .querySelector('.popup'); // получаю шаблон формы
 
 
-const cardNotificationСanvas = document.querySelector('.map__canvas'); // нахожу, куда буду передавать заполненные данными шаблоны
-
-const similarCards = createNearestPlaces();
+// const cardNotificationСanvas = document.querySelector('.map__canvas'); // нахожу, куда буду передавать заполненные данными шаблоны
+// cardNotificationСanvas.classList.add('visually-hidden');
 
 function fillFeatures(featuresElement, featuresArray) {
   featuresElement.innerHTML = '';
@@ -22,7 +21,6 @@ function fillFeatures(featuresElement, featuresArray) {
   });
 }
 
-// const photosDiv = cardNotification.querySelector('.popup__photos');
 const photosObj = cardNotification.querySelector('.popup__photo');
 
 function fillImages(photosElement, photosArray) {
@@ -36,7 +34,7 @@ function fillImages(photosElement, photosArray) {
   });
 }
 
-similarCards.forEach((item) => {
+const createPopup = ( item ) => {
   const cardNotificationClone = cardNotification.cloneNode(true);
 
   item.offer.title !== undefined
@@ -87,7 +85,8 @@ similarCards.forEach((item) => {
     ? cardNotificationClone.querySelector('.popup__avatar').src = item.author.avatar
     : cardNotificationClone.querySelector('.popup__avatar').remove();
 
+  return cardNotificationClone;
+};
 
-  cardNotificationСanvas.appendChild(cardNotificationClone);
-  // console.log(cardNotificationClone);
-});
+export { createPopup };
+

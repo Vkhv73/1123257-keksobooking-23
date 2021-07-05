@@ -1,3 +1,5 @@
+import { resetMap } from './map-handler.js';
+
 const noticeForm = document.querySelector('.notice');
 
 const noticeFormTitleInput = noticeForm.querySelector('#title');
@@ -5,6 +7,7 @@ const noticeFormPriceInput = noticeForm.querySelector('#price');
 const noticeFormTypeInput = noticeForm.querySelector('#type');
 const noticeFormRoomNumber = noticeForm.querySelector('#room_number');
 const noticeFormCapacity = noticeForm.querySelector('#capacity');
+const resetButton = noticeForm.querySelector('.ad-form__reset');
 
 const time = document.querySelector('.ad-form__element--time');
 const timeIn = time.querySelector('#timein');
@@ -97,4 +100,11 @@ timeIn.addEventListener('change', () => {
 
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
+});
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  // resetForm();
+  // resetFilter();
+  resetMap();
 });
