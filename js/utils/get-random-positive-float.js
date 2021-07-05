@@ -21,3 +21,5 @@ function getRandomPositiveFloat (a, b, digits = 1) {
   // указать требуемое количество знаков после точки
   return result.toFixed(digits);
 }
+
+getRandomPositiveFloat();
