@@ -93,5 +93,4 @@ const createRandomNearestPlaces = () => {
   return textus;
 };
 
-export { createRandomNearestPlaces };
-export { typeOfApartmentObj };
+export { createRandomNearestPlaces, typeOfApartmentObj };

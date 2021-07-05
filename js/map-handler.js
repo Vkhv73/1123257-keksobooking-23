@@ -30,16 +30,25 @@ L.tileLayer(
   },
 ).addTo(map);
 
+const PIN_ICON_SIZE = {
+  width: 40,
+  height: 40,
+};
+const MAIN_PIN_ICON_SIZE = {
+  width: 52,
+  height: 52,
+};
+
 const pinIcon = L.icon({
   iconUrl: '../img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [PIN_ICON_SIZE.width, PIN_ICON_SIZE.height],
+  iconAnchor: [PIN_ICON_SIZE.width/2, PIN_ICON_SIZE.height],
 });
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [MAIN_PIN_ICON_SIZE.width, MAIN_PIN_ICON_SIZE.height],
+  iconAnchor: [MAIN_PIN_ICON_SIZE.width/2, MAIN_PIN_ICON_SIZE.height],
 });
 
 const mainPinMarker = L.marker(
