@@ -1,8 +1,6 @@
 // Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 
-
-// eslint-disable-next-line no-unused-vars
 function getRandomPositiveInteger (a, b) {
   // Чтобы не заставлять пользователя нашей функции помнить порядок аргументов,
   // реализуем поддержку передачи минимального и максимального значения в любом порядке,
