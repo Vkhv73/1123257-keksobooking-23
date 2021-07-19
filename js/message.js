@@ -2,6 +2,10 @@ import {isEscEvent} from './util.js';
 
 const ALERT_SHOW_TIME = 5000;
 
+/**
+ * Действие по нажатию клавиши Esc при удачной отправке данных на сервер
+ * Вызывает функцию закрытия сообщения - closeSuccessMessage
+ */
 const onSuccessEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
@@ -9,6 +13,10 @@ const onSuccessEscKeydown = (evt) => {
   }
 };
 
+/**
+ * Действие по нажатию клавиши Esc при НЕудачной отправке данных на сервер
+ * Вызывает функцию закрытия сообщения - closeErrorMessage
+ */
 const onErrorEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
@@ -16,16 +24,29 @@ const onErrorEscKeydown = (evt) => {
   }
 };
 
+/**
+ * Действие по клику на странице при удачной отправке данных на сервер
+ * Вызывает функцию закрытия сообщения - closeSuccessMessage
+ */
 const onSuccessClick = (evt) => {
   evt.preventDefault();
   closeSuccessMessage();
 };
 
+/**
+ * Действие по клику на странице при НЕудачной отправке данных на сервер
+ * Вызывает функцию закрытия сообщения - closeErrorMessage
+ */
 const onErrorClick = (evt) => {
   evt.preventDefault();
   closeErrorMessage();
 };
 
+/**
+ * Функция закрытия сообщения об успешной отправке
+ * Удаляет сообщение из DOM
+ * Удаляет обработчики с документа (ESC и клик)
+ */
 function closeSuccessMessage () {
   document.querySelector('.success').remove();
 
@@ -33,6 +54,11 @@ function closeSuccessMessage () {
   document.removeEventListener('click', onSuccessClick);
 }
 
+/**
+ * Функция закрытия сообщения об НЕуспешной отправке
+ * Удаляет сообщение из DOM
+ * Удаляет обработчики с документа (ESC и клик)
+ */
 function closeErrorMessage () {
   document.querySelector('.error').remove();
 
@@ -40,6 +66,10 @@ function closeErrorMessage () {
   document.removeEventListener('click', onErrorClick);
 }
 
+/**
+ * Выводит всплывающее сообщение об ОШИБКЕ при загрузке данных
+ * @param {String} message - сообщение об ошибке
+ */
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -61,6 +91,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+/**
+ * Функция отображения сообщения об удачной отправке данных на сервер
+ * Находит шаблоне #success - оздает клон шаблона сообщения и вставляет его в body
+ * Вешает обработчики событий на документ
+ * Документ слушает нажатие на Esc и клик, вызывая функции onSuccessEscKeydown и onSuccessClick, соответственно
+ */
 const showSuccess = () => {
   const successTemplate = document.querySelector('#success')
     .content.querySelector('.success');
@@ -73,7 +109,7 @@ const showSuccess = () => {
 };
 
 /**
- * Функция, показывающая сообщение о неуспешной отправки формы
+ * Функция, показывающая сообщение о НЕуспешной отправке формы
  * Находит шаблон #error - копируя вставляет его в body.
  * Вешает обработчики событий на кнопку error__button, и на документ.
  * Документ слушает клик и нажатие на Esc

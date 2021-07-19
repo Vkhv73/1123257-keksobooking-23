@@ -1,15 +1,25 @@
-// import { createRandomNearestPlaces } from './data.js';
-import { typeOfApartmentObj } from './data.js';
+const typeOfApartmentObj = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 
-const cardNotification = document
-  .querySelector('#card')
+const cardNotification = document.querySelector('#card')
   .content
   .querySelector('.popup'); // получаю шаблон формы
 
+const photosObj = cardNotification.querySelector('.popup__photo');
 
-// const cardNotificationСanvas = document.querySelector('.map__canvas'); // нахожу, куда буду передавать заполненные данными шаблоны
-// cardNotificationСanvas.classList.add('visually-hidden');
-
+/**
+ * Функция заполнения преимуществами объявления
+ * @param {Element} featuresElement
+ * @param {Array} featuresArray
+ * Сначала очищаем featuresElement
+ * Затем проходимся по массиву featuresArray и создаем <li>
+ * Добавляем необходимые классы и вставляем в featuresElement
+ */
 function fillFeatures(featuresElement, featuresArray) {
   featuresElement.innerHTML = '';
 
@@ -21,8 +31,14 @@ function fillFeatures(featuresElement, featuresArray) {
   });
 }
 
-const photosObj = cardNotification.querySelector('.popup__photo');
-
+/**
+ * Функция заполнения фотографий объявления
+ * @param {Element} photosElement
+ * @param {Array} photosArray
+ * Сначала очищаем photosElement
+ * Затем проходимся по массиву photosArray и создаем <img> на основе шаблона photosObj
+ * Добавляем необходимый src и вставляем в photosElement
+ */
 function fillImages(photosElement, photosArray) {
   photosElement.innerHTML = '';
 
@@ -34,6 +50,11 @@ function fillImages(photosElement, photosArray) {
   });
 }
 
+/**
+ * Функция создания попапа из данных с сервера
+ * @param {Object} item - одно объявление из массива данных
+ * @returns <article> заполненный данными шаблон - попап объявления
+ */
 const createPopup = ( item ) => {
   const cardNotificationClone = cardNotification.cloneNode(true);
 

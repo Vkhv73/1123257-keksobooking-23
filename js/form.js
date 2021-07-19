@@ -44,23 +44,34 @@ const capacityNumber = {
   'no guest': 0,
 };
 
-// Начальные значения элементов формы
+/**
+ * Начальные значения элементов формы - сразу после загрузки страницы, до ввода пользователем
+ */
 const defaultFormSetting = {
   avatarKey: noticeFormAvatar.src,
   // Значение title = пустая строка (как изначально)
   titleKey: noticeFormTitleInput.value,
+  // Значение типа жилья = пустая строка (как изначально)
   typeKey: noticeFormTypeInput.value,
+  // Значение цены = пустая строка (как изначально)
   priceKey: noticeFormPriceInput.value,
+  // Значение цены по умолчанию в плейсхолдере = значение плейсхолдера (как изначально)
   pricePlaceholder: noticeFormPriceInput.placeholder,
+  // Значение времени заезда = значение value (как изначально)
   timeInKey: timeIn.value,
+  // Значение времени выезда = значение value (как изначально)
   timeOutKey: timeOut.value,
+  // Значение количества комнат = значение value (как изначально)
   roomNumberKey: noticeFormRoomNumber.value,
+  // Значение количества жильцов = значение value (как изначально)
   capacityKey: noticeFormCapacity.value,
+  // Значение поля ОПИСАНИЕ = значение value (как изначально)
   descriptionKey: noticeFormDescription.value,
 };
 
-
-// валидация поля "ЗАГОЛОВОК" текстовое, от 30 до 100 символов
+/**
+ * Валидация поля "ЗАГОЛОВОК" текстовое, от 30 до 100 символов
+ */
 noticeFormTitleInput.addEventListener('input', () => {
   const valueLength = noticeFormTitleInput.value.length;
 
@@ -74,14 +85,20 @@ noticeFormTitleInput.addEventListener('input', () => {
   noticeFormTitleInput.reportValidity();
 });
 
-// валидация полей "ТИП ЖИЛЬЯ И ЦЕНА ЗА НОЧЬ"
+/**
+ * Валидация полей "ТИП ЖИЛЬЯ И ЦЕНА ЗА НОЧЬ"
+ */
 noticeFormTypeInput.addEventListener('change', (evt) => {
   const selectValue = evt.target.value;
 
   noticeFormPriceInput.placeholder = minPriceType[selectValue];
   noticeFormPriceInput.min = minPriceType[selectValue];
 });
-// валидация полей "КОЛИЧЕСТВО КОМНАТ И КОЛИЧЕСТВО ГОСТЕЙ"
+
+/**
+ * Валидация полей "КОЛИЧЕСТВО КОМНАТ И КОЛИЧЕСТВО ГОСТЕЙ"
+ */
+
 const validateRoomsAndGuestsNumber = () => {
   const roomValue = Number(noticeFormRoomNumber.value);
   const capacityValue = Number(noticeFormCapacity.value);
@@ -105,44 +122,59 @@ const validateRoomsAndGuestsNumber = () => {
   }
 };
 
+/**
+ * Обработчик события change на элементе количество комнат
+ */
 noticeFormRoomNumber.addEventListener('change', () => {
   validateRoomsAndGuestsNumber();
 });
 
+/**
+ * Обработчик события change на элементе количество гостей
+ */
 noticeFormCapacity.addEventListener('change', () => {
   validateRoomsAndGuestsNumber();
 });
 
-//!========== ниже валидация и синхронизация для времени заезда задание 8-2
-
+/**
+ * Обработчик события change на элементе времени заезда
+ * Проиходит синхронизация полей
+ */
 timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
 });
 
+/**
+ * Обработчик события change на элементе времени выезда
+ * Проиходит синхронизация полей
+ */
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
+/**
+ * Функция сброса введённых данных до дефолтных при нажатии кнопки ОЧИСТИТЬ или при удачной отправке формы
+ */
 const resetForm = () => {
   // Сбрасываем путь у картинки на дефолтный
   noticeFormAvatar.src = defaultFormSetting.avatarKey;
   // Сбрасываем значение у заголовка на дефолтный (пустая строка)
   noticeFormTitleInput.value = defaultFormSetting.titleKey;
-
+  // Сбрасываем значение у типа жилья на дефолтный (Квартира)
   noticeFormTypeInput.value = defaultFormSetting.typeKey;
   // Сбрасываем значение у цены на дефолтный (пустая строка)
   noticeFormPriceInput.value = defaultFormSetting.priceKey;
   // Сбрасываем плейсхолдер у цены на дефолтный (5000)
   noticeFormPriceInput.placeholder = defaultFormSetting.pricePlaceholder;
-
+  // Сбрасываем время заезда на дефолтное (12:00)
   timeIn.value = defaultFormSetting.timeInKey;
-
+  // Сбрасываем время выезда на дефолтное (12:00)
   timeOut.value = defaultFormSetting.timeOutKey;
-
+  // Сбрасываем количество комнат на дефолтное (1)
   noticeFormRoomNumber.value = defaultFormSetting.roomNumberKey;
-
+  // Сбрасываем количество жильцов (вместимость) на дефолтное (1 гость)
   noticeFormCapacity.value = defaultFormSetting.capacityKey;
-
+  // Сбрасываем описание на дефолтное (пустая строка)
   noticeFormDescription.value = defaultFormSetting.descriptionKey;
 
   // Убираем checked у чекбоксов
@@ -156,21 +188,29 @@ const resetForm = () => {
 
 /**
  * Функция, вызываемая при успешной отправке
- * Вызывает показ сообщения об успешной отправки и сбрасывает форму
+ * Вызывает показ сообщения об успешной отправке и сбрасывает форму
  */
 const sendSuccess = () => {
   showSuccess();
   resetForm();
 };
 
+/**
+ * Обработчик клика на кнопке сброса формы
+ * Вызывает функцию сброса формы - resetForm
+ * Вызывает функцию сброса фильтров - resetFilter
+ * Вызывает функцию сброса карты - resetMap
+ */
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm();
   // resetFilter();
   resetMap();
 });
-//!=== ниже обработка кнопки отправки формы
 
+/**
+ * Обработчик отправки формы
+ */
 sendNoticeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
@@ -179,7 +219,7 @@ sendNoticeForm.addEventListener('submit', (evt) => {
   /**
    * Функция отправки данных
    * @param sendSuccess - функция, вызываемая в случае успешной отправки на сервер
-   * @param showError - функция, вызываемая в случае ошибки при отправки на сервер
+   * @param showError - функция, вызываемая в случае ошибки при отправке на сервер
    * @param formData - данные, введенный пользователем, которые отправятся на сервер.
    * Получены при помощи конструктора FormData на строке 177
    */
