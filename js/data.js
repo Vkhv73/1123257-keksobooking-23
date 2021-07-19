@@ -1,5 +1,5 @@
-import {getRandomInteger} from './util.js';
-import {getRandomFloat} from './util.js';
+// import {getRandomInteger} from './util.js';
+// import {getRandomFloat} from './util.js';
 
 const OBJECTS_COUNT = 10;
 const NUMBER_OF_AVATARS_MIN = 1;
@@ -94,3 +94,4 @@ const createRandomNearestPlaces = () => {
 };
 
 export { createRandomNearestPlaces, typeOfApartmentObj };
+// export { typeOfApartmentObj };

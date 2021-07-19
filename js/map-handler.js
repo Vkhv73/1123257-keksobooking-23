@@ -1,27 +1,27 @@
 import { form, mapFilters, removeDisabledForms } from './activity-mode-switch.js';
 
-import { createRandomNearestPlaces } from './data.js';
+// import { createRandomNearestPlaces } from './data.js';
 import { createPopup } from './gen-template.js';
-
 
 const address = document.querySelector('#address');
 // Создание массива из 10ти рандомных обхектов
 // Потом будем получать данные с сервера
-const similarCards = createRandomNearestPlaces();
+// const similarCards = createRandomNearestPlaces();
 
 const LAT_CENTRE = 35.6895;
 const LNG_CENTRE = 139.692;
+
+const MAP_SCALE = 12;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     address.value = `${LAT_CENTRE}, ${LNG_CENTRE}`;
     removeDisabledForms(form, 'ad-form');
-    removeDisabledForms(mapFilters, 'map__filters');
   })
   .setView({
     lat: LAT_CENTRE,
     lng: LNG_CENTRE,
-  }, 12);
+  }, MAP_SCALE);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -77,6 +77,8 @@ mainPinMarker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 const createPointsMap = function (arraySimilarCards) {
+  removeDisabledForms(mapFilters, 'map__filters'); // снимаем блокировку фильтра, при успехе загрузки данных
+
   arraySimilarCards.forEach((item) => {
     const { lat, lng } = item.location;
 
@@ -99,12 +101,16 @@ const createPointsMap = function (arraySimilarCards) {
   });
 };
 
-createPointsMap(similarCards);
-
 const resetMap = () => {
   markerGroup.clearLayers(); // очистит и не добавит
 
-  createPointsMap(similarCards); // а эта добавит
+  // createPointsMap(similarCards); // а эта добавит //! ВОТ ТАК БЫЛО
+
+  fetch('https://23.javascript.pages.academy/keksobooking/data') //! КАК ЭТО РЕШИТЬ? - У ПАВЛА
+    .then((response) => response.json())
+    .then((dataList) => {
+      createPointsMap(dataList);
+    });
 
   mainPinMarker.setLatLng({
     lat: LAT_CENTRE,
@@ -116,7 +122,8 @@ const resetMap = () => {
   map.setView({
     lat: LAT_CENTRE,
     lng: LNG_CENTRE,
-  }, 12);
+  }, MAP_SCALE);
 };
 
-export { map, mainPinMarker, resetMap }; //! убрать потом вниз файла СНАЧАЛА СПРОСИТЬ У ПАВЛЯ ЗАЧЕМ МЫ ЭТО ЭКСПОРТИРОВАЛИ
+
+export { map, mainPinMarker, resetMap, createPointsMap, markerGroup };
