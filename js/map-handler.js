@@ -1,34 +1,13 @@
 import { form, mapFilters, removeDisabledForms } from './activity-mode-switch.js';
 
-import { createRandomNearestPlaces } from './data.js';
 import { createPopup } from './gen-template.js';
 
-
 const address = document.querySelector('#address');
-// Создание массива из 10ти рандомных обхектов
-// Потом будем получать данные с сервера
-const similarCards = createRandomNearestPlaces();
 
 const LAT_CENTRE = 35.6895;
 const LNG_CENTRE = 139.692;
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    address.value = `${LAT_CENTRE}, ${LNG_CENTRE}`;
-    removeDisabledForms(form, 'ad-form');
-    removeDisabledForms(mapFilters, 'map__filters');
-  })
-  .setView({
-    lat: LAT_CENTRE,
-    lng: LNG_CENTRE,
-  }, 12);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const MAP_SCALE = 12;
 
 const PIN_ICON_SIZE = {
   width: 40,
@@ -51,6 +30,40 @@ const mainPinIcon = L.icon({
   iconAnchor: [MAIN_PIN_ICON_SIZE.width/2, MAIN_PIN_ICON_SIZE.height],
 });
 
+/**
+ * Инициализация карты
+ */
+const map = L.map('map-canvas')
+  /**
+   * Обработчик загрузки карты
+   * После успешной загрузки карты проставляет lat и lng в поле адреса
+   * И снимает disabled с полей формы
+   */
+  .on('load', () => {
+    address.value = `${LAT_CENTRE}, ${LNG_CENTRE}`;
+    removeDisabledForms(form, 'ad-form');
+  })
+  /**
+   * Установка вида карты с переданными координатами и масштабом
+   */
+  .setView({
+    lat: LAT_CENTRE,
+    lng: LNG_CENTRE,
+  }, MAP_SCALE);
+
+/**
+ * Создание слоя копирайта и добавление его на карту
+ */
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
+/**
+ * Добавление главного пина и его вставка
+ */
 const mainPinMarker = L.marker(
   {
     title: 'Моя МЕТКА',
@@ -64,25 +77,47 @@ const mainPinMarker = L.marker(
 
 );
 mainPinMarker.addTo(map);
-// mainPinMarker.bindPopup(mainPinMarker.title); //! +++ Уточнить у Павла, почему не передаётся значение и затем удалить балун для этой метки
 
+/**
+ * Обработчик перемещение главной метки с помощью мышки
+ * Получает новые координаты и подставляет их в поле адрес
+ */
 mainPinMarker.on('moveend', (evt) => {
   const markerPosition = (evt.target.getLatLng());
-  // console.log(markerPosition);
+
   address.value = `${markerPosition.lat.toFixed(5)}, ${markerPosition.lng.toFixed(5)}`;
 
   return markerPosition;
 });
 
+/**
+ * Создание слоя для похожих загруженных с сервера объектов и добавление его на карту
+ */
 const markerGroup = L.layerGroup().addTo(map);
 
-const createPointsMap = function (arraySimilarCards) {
-  arraySimilarCards.forEach((item) => {
+/**
+ * Функция, создания меток на карту
+ * @param {Array} arrayCards - массив загруженных данных (объектов объявлений)
+ */
+const createPointsMap = (arrayCards) => {
+  /**
+   * Снимаем блокировку фильтров, при успешной загрузки данных
+   */
+  removeDisabledForms(mapFilters, 'map__filters');
+
+  /**
+   * Проход по массиву загруженных объявлегний и создание маркеров и привязки попапов
+   * @param {Object} item - одно объявление из массива
+   */
+  arrayCards.forEach((item) => {
     const { lat, lng } = item.location;
 
+    /**
+     * Создание одного маркера по координатам и иконке
+     */
     const marker = L.marker(
       {
-        lat: lat, // item.location.lat
+        lat: lat,
         lng: lng,
       },
       {
@@ -91,20 +126,42 @@ const createPointsMap = function (arraySimilarCards) {
     );
 
     marker
+      /**
+       * Добавление маркера на карту
+       */
       .addTo(markerGroup)
-      .bindPopup(createPopup(item), // Результат createPopup => htmlelement article
+      /**
+       * Привязка к маркеру результата createPopup
+       */
+      .bindPopup(
+        /**
+         * Функция заполнения шаблона из HTML данными с сервера
+         * @param {Object} item - одно объявление из массива
+         * Результатом функции является HTML-элемент <article> (попап)
+         */
+        createPopup(item),
         {
           keepInView: true,
         });
   });
 };
 
-createPointsMap(similarCards);
-
+/**
+ * Функция сброса карты
+ * Очищает слой маркеров
+ * Добавляет новые маркеры
+ * Ставит карту в исходное состояние
+ */
 const resetMap = () => {
   markerGroup.clearLayers(); // очистит и не добавит
 
-  createPointsMap(similarCards); // а эта добавит
+  // createPointsMap(similarCards); // а эта добавит //! ВОТ ТАК БЫЛО
+
+  fetch('https://23.javascript.pages.academy/keksobooking/data') //! КАК ЭТО РЕШИТЬ? - У ПАВЛА
+    .then((response) => response.json())
+    .then((dataList) => {
+      createPointsMap(dataList);
+    });
 
   mainPinMarker.setLatLng({
     lat: LAT_CENTRE,
@@ -116,7 +173,8 @@ const resetMap = () => {
   map.setView({
     lat: LAT_CENTRE,
     lng: LNG_CENTRE,
-  }, 12);
+  }, MAP_SCALE);
 };
 
-export { map, mainPinMarker, resetMap }; //! убрать потом вниз файла СНАЧАЛА СПРОСИТЬ У ПАВЛЯ ЗАЧЕМ МЫ ЭТО ЭКСПОРТИРОВАЛИ
+
+export { resetMap, createPointsMap };

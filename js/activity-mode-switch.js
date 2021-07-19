@@ -1,10 +1,11 @@
-//!========== ниже перевод в АКТИВНОЕ-НЕАКТИВНОЕ СОСТОЯНИЕ  задание 7-2
-// import './map-handler.js';
-// import { map } from './map-handler.js';
-
 const form = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 
+/**
+ * Функция установки disabled на поля переданного элемента
+ * @param {Element} element - элемент, на поля которого надо установить disabled
+ * @param {String} className - класс, который необходимо добавить
+ */
 const setDisabledForms = (element, className) => {
   element.classList.add(`${className}--disabled`);
 
@@ -13,6 +14,11 @@ const setDisabledForms = (element, className) => {
   });
 };
 
+/**
+ * Функция снятия disabled с полей переданного элемента
+ * @param {Element} element - элемент, с полей которого надо убрать disabled
+ * @param {String} className - класс, который необходимо удалить
+ */
 const removeDisabledForms = (element, className) => {
   element.classList.remove(`${className}--disabled`);
 
@@ -21,6 +27,9 @@ const removeDisabledForms = (element, className) => {
   });
 };
 
+/**
+ * Вызываем эти функции при инициализации JS
+ */
 setDisabledForms(form, 'ad-form');
 setDisabledForms(mapFilters, 'map__filters');
 
