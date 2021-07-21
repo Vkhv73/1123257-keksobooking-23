@@ -14,6 +14,7 @@ const getData = (onSuccess, onError) => {
     });
 };
 
+
 /**
  * Функция отправки данных на сервер
  * @param {Function} onSuccess - вызывается в случае успешной отправки
