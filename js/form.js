@@ -1,5 +1,6 @@
 import { resetMap } from './map-handler.js';
 import { sendData } from './fetch-api.js';
+import { resetFilter } from './filter.js';
 import { showSuccess, showError } from './message.js';
 
 const noticeForm = document.querySelector('.notice');
@@ -98,7 +99,6 @@ noticeFormTypeInput.addEventListener('change', (evt) => {
 /**
  * Валидация полей "КОЛИЧЕСТВО КОМНАТ И КОЛИЧЕСТВО ГОСТЕЙ"
  */
-
 const validateRoomsAndGuestsNumber = () => {
   const roomValue = Number(noticeFormRoomNumber.value);
   const capacityValue = Number(noticeFormCapacity.value);
@@ -204,7 +204,7 @@ const sendSuccess = () => {
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetForm();
-  // resetFilter();
+  resetFilter();
   resetMap();
 });
 
@@ -221,7 +221,7 @@ sendNoticeForm.addEventListener('submit', (evt) => {
    * @param sendSuccess - функция, вызываемая в случае успешной отправки на сервер
    * @param showError - функция, вызываемая в случае ошибки при отправке на сервер
    * @param formData - данные, введенный пользователем, которые отправятся на сервер.
-   * Получены при помощи конструктора FormData на строке 177
+   * Получены при помощи конструктора FormData на строке 217
    */
   sendData(sendSuccess, showError, formData);
 });

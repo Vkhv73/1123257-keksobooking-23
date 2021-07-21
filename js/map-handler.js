@@ -1,4 +1,5 @@
 import { form, mapFilters, removeDisabledForms } from './activity-mode-switch.js';
+import { getFilteredPoint } from './filter.js';
 
 import { createPopup } from './gen-template.js';
 
@@ -29,6 +30,8 @@ const mainPinIcon = L.icon({
   iconSize: [MAIN_PIN_ICON_SIZE.width, MAIN_PIN_ICON_SIZE.height],
   iconAnchor: [MAIN_PIN_ICON_SIZE.width/2, MAIN_PIN_ICON_SIZE.height],
 });
+
+let dataPoints = [];
 
 /**
  * Инициализация карты
@@ -146,6 +149,18 @@ const createPointsMap = (arrayCards) => {
   });
 };
 
+const resetMarkersLayer = () => {
+  markerGroup.clearLayers();
+};
+
+const updatePoints = (points) => {
+  dataPoints = points;
+  resetMarkersLayer();
+  const filteredPoints = getFilteredPoint(points);
+  createPointsMap(filteredPoints);
+};
+
+
 /**
  * Функция сброса карты
  * Очищает слой маркеров
@@ -153,20 +168,12 @@ const createPointsMap = (arrayCards) => {
  * Ставит карту в исходное состояние
  */
 const resetMap = () => {
-  markerGroup.clearLayers(); // очистит и не добавит
-
-  // createPointsMap(similarCards); // а эта добавит //! ВОТ ТАК БЫЛО
-
-  fetch('https://23.javascript.pages.academy/keksobooking/data') //! КАК ЭТО РЕШИТЬ? - У ПАВЛА
-    .then((response) => response.json())
-    .then((dataList) => {
-      createPointsMap(dataList);
-    });
+  updatePoints(dataPoints);
 
   mainPinMarker.setLatLng({
     lat: LAT_CENTRE,
     lng: LNG_CENTRE,
-  });
+  }).update();
 
   address.value = `${LAT_CENTRE}, ${LNG_CENTRE}`;
 
@@ -177,4 +184,4 @@ const resetMap = () => {
 };
 
 
-export { resetMap, createPointsMap };
+export { resetMap, createPointsMap, updatePoints };
