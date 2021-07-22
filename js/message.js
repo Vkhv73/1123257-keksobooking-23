@@ -43,6 +43,20 @@ const onErrorClick = (evt) => {
 };
 
 /**
+ * Действие по клику на кнопке "Попробовать снова" при НЕудачной отправке данных на сервер
+ * Вызывает функцию закрытия сообщения - closeErrorMessage
+ */
+const onErrorButtonClick = (evt) => {
+  evt.preventDefault();
+  closeErrorMessage();
+};
+
+/**
+ * Здесь и ниже используется Function Declaration, поскольку линтер ругается, что функция используется до объявления
+ * Код взят из демонстрации https://up.htmlacademy.ru/javascript/23/demos/5339#18
+ */
+
+/**
  * Функция закрытия сообщения об успешной отправке
  * Удаляет сообщение из DOM
  * Удаляет обработчики с документа (ESC и клик)
@@ -121,7 +135,7 @@ const showError = () => {
 
   document.body.appendChild(errorClone);
 
-  errorClone.querySelector('.error__button').addEventListener('click', closeErrorMessage);
+  errorClone.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
   document.addEventListener('keydown', onErrorEscKeydown);
   document.addEventListener('click', onErrorClick);
 };

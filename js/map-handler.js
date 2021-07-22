@@ -1,15 +1,15 @@
 import { form, mapFilters, removeDisabledForms } from './activity-mode-switch.js';
-import { getFilteredPoint } from './filter.js';
-
+import { getFilteredPoint, setEventListenerFilter } from './filter.js';
+import { getData } from './fetch-api.js';
+import { showAlert } from './message.js';
+import { debounce } from './utils/debounce.js';
 import { createPopup } from './gen-template.js';
-
-const address = document.querySelector('#address');
 
 const LAT_CENTRE = 35.6895;
 const LNG_CENTRE = 139.692;
-
 const MAP_SCALE = 12;
-
+const POINTS_COUNT = 10;
+const RERENDER_DELAY = 500;
 const PIN_ICON_SIZE = {
   width: 40,
   height: 40,
@@ -18,6 +18,8 @@ const MAIN_PIN_ICON_SIZE = {
   width: 52,
   height: 52,
 };
+
+const address = document.querySelector('#address');
 
 const pinIcon = L.icon({
   iconUrl: '../img/pin.svg',
@@ -154,7 +156,6 @@ const resetMarkersLayer = () => {
 };
 
 const updatePoints = (points) => {
-  dataPoints = points;
   resetMarkersLayer();
   const filteredPoints = getFilteredPoint(points);
   createPointsMap(filteredPoints);
@@ -182,6 +183,24 @@ const resetMap = () => {
     lng: LNG_CENTRE,
   }, MAP_SCALE);
 };
+
+/**
+ * Загружаем данные с сервера, когда карта готова
+ */
+map.whenReady(() => {
+  /**
+   * Загружаем данные с сервера
+   * @param {Function} Anonymous - функция в случае успешной загрузки данных, создающая метки на карте,
+   * навешивает обработчики на фильтры
+   * @param {Function} showAlert - функция в случае неуспешной загрузки данных, показывает сообщение с ошибкой
+   */
+  getData(((pointsFromServer) => {
+    dataPoints = pointsFromServer;
+    createPointsMap(dataPoints.slice(0, POINTS_COUNT));
+    setEventListenerFilter(debounce(() => updatePoints(dataPoints), RERENDER_DELAY));
+  }),
+  showAlert);
+});
 
 
 export { resetMap, createPointsMap, updatePoints };

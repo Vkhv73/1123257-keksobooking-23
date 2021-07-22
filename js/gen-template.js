@@ -20,7 +20,7 @@ const photosObj = cardNotification.querySelector('.popup__photo');
  * Затем проходимся по массиву featuresArray и создаем <li>
  * Добавляем необходимые классы и вставляем в featuresElement
  */
-function fillFeatures(featuresElement, featuresArray) {
+const fillFeatures = (featuresElement, featuresArray) => {
   featuresElement.innerHTML = '';
 
   featuresArray.forEach((item) => {
@@ -29,7 +29,7 @@ function fillFeatures(featuresElement, featuresArray) {
     liElement.classList.add('popup__feature', `popup__feature--${item}`);
     featuresElement.appendChild(liElement);
   });
-}
+};
 
 /**
  * Функция заполнения фотографий объявления
@@ -39,7 +39,7 @@ function fillFeatures(featuresElement, featuresArray) {
  * Затем проходимся по массиву photosArray и создаем <img> на основе шаблона photosObj
  * Добавляем необходимый src и вставляем в photosElement
  */
-function fillImages(photosElement, photosArray) {
+const fillImages = (photosElement, photosArray) => {
   photosElement.innerHTML = '';
 
   photosArray.forEach((item) => {
@@ -48,7 +48,7 @@ function fillImages(photosElement, photosArray) {
     photoClone.src = item;
     photosElement.appendChild(photoClone);
   });
-}
+};
 
 /**
  * Функция создания попапа из данных с сервера

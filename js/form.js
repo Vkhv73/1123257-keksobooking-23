@@ -3,6 +3,9 @@ import { sendData } from './fetch-api.js';
 import { resetFilter } from './filter.js';
 import { showSuccess, showError } from './message.js';
 
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
 const noticeForm = document.querySelector('.notice');
 const noticeFormAvatar = noticeForm.querySelector('.ad-form-header__preview img');
 const noticeFormTitleInput = noticeForm.querySelector('#title');
@@ -14,14 +17,10 @@ const noticeFormDescription = noticeForm.querySelector('#description');
 const noticeFormFeatures = noticeForm.querySelectorAll('.features__checkbox');
 const noticeFormPhotos = noticeForm.querySelectorAll('.ad-form__photo');
 const resetButton = noticeForm.querySelector('.ad-form__reset');
-const sendNoticeForm = noticeForm.querySelector('.ad-form'); // нашёл форму отправки
-
+const sendNoticeForm = noticeForm.querySelector('.ad-form');
 const time = document.querySelector('.ad-form__element--time');
 const timeIn = time.querySelector('#timein');
 const timeOut = time.querySelector('#timeout');
-
-const MIN_TITLE_LENGTH = noticeFormTitleInput.minLength;
-const MAX_TITLE_LENGTH = noticeFormTitleInput.maxLength;
 
 const minPriceType = {
   'bungalow': 0,

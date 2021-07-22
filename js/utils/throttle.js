@@ -1,7 +1,7 @@
 // Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_throttle
 
-function throttle (callback, delayBetweenFrames) {
+const throttle = (callback, delayBetweenFrames) => {
   // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
   // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
   let lastTime = 0;
@@ -20,6 +20,6 @@ function throttle (callback, delayBetweenFrames) {
       lastTime = now;
     }
   };
-}
+};
 
 export {throttle};
