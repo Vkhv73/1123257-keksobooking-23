@@ -1,6 +1,6 @@
 import { showAlert } from './message.js';
 
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'webp', 'avif'];
 
 const fileAvatarChooser = document.querySelector('#avatar');
 const previewAvatar = document.querySelector('.ad-form-header__preview img');
@@ -22,7 +22,7 @@ fileAvatarChooser.addEventListener('change', () => {
 
     reader.readAsDataURL(file);
   } else {
-    showAlert('Выберите графический файл');
+    showAlert('Выберите файл изображения');
   }
 });
 
